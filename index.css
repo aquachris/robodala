@@ -1,0 +1,138 @@
+/*@import url('https://fonts.googleapis.com/css?family=Oleo+Script');*/
+@font-face {
+  font-family: 'Oleo Script';
+  src: url('./fonts/OleoScript-Regular.ttf')  format('truetype');
+}
+
+html {
+    background-color: #444;
+    color: #fff;
+    font-family: 'Oleo Script', Verdana, sans-serif;
+}
+h1 {
+    margin: 0 0 0 .5em;
+    text-shadow: 1px 1px 4px #000;
+}
+div.buttons {
+    display: inline-block;
+    position: absolute;
+    right: .5em;
+    top: .7em;
+}
+button {
+    background-color: #ddf;
+    box-shadow: 1px 1px 4px #000;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: 'Oleo Script', sans-serif;
+    height: 3em;
+    margin: 0 .25em;
+    outline: none;
+    padding: 0;
+    text-align: center;
+    width: 3em;
+}
+button:hover {
+    background-color: #bbc;
+    box-shadow: none;
+}
+button svg {
+    transition: transform .5s;
+}
+button:hover svg {
+    /*transform: rotate(120deg);*/
+}
+svg.print-icon path {
+    fill: #888;
+    stroke: #000;
+    stroke-width: 3;
+}
+svg.print-icon path:nth-child(2) {
+    fill: none;
+    stroke: #0e0;
+}
+svg.print-icon path:nth-child(3),
+svg.print-icon path:nth-child(4) {
+    fill: #fff;
+}
+svg.new-icon path {
+    fill: #fcc;
+    stroke: #000;
+    stroke-width: 3;
+}
+svg.new-icon circle {
+    fill: none;
+    stroke: #555;
+    stroke-width: 5;
+}
+svg.new-icon circle.inner {
+    fill: #fdc;
+}
+svg.new-icon circle.outer {
+    fill: #aea;
+}
+svg.color-icon path {
+    stroke: #000;
+    stroke-width: 5;
+}
+svg.color-icon path:nth-child(1) {
+    fill: #ccc;
+}
+svg.color-icon path:nth-child(2) {
+    fill: #eee;
+}
+svg.color-icon path:nth-child(3) {
+    fill: #999;
+}
+svg.color-icon path:nth-child(4) {
+    fill: #666;
+}
+button.active > svg.color-icon path:nth-child(1) {
+    fill: #cc0;
+}
+button.active > svg.color-icon path:nth-child(2) {
+    fill: #0cc;
+}
+button.active > svg.color-icon path:nth-child(3) {
+    fill: #c0c;
+}
+button.active > svg.color-icon path:nth-child(4) {
+    fill: #0a0;
+}
+
+div.mandala-ct {
+    bottom: 5em;
+    height: auto;
+    left: 1em;
+    position: absolute;
+    right: 1em;
+    top: 5em;
+    width: auto;
+    z-index: 0;
+}
+svg.mandala circle {
+    stroke: #000;
+    stroke-width: 2px;
+}
+svg.mandala path {
+    /* fill: #f00; */
+    stroke: #000;
+    stroke-width: 2px;
+}
+svg.mandala.uncolored circle, svg.mandala.uncolored path {
+    fill: #fff !important;
+}
+/*svg.mandala path:hover, svg.mandala circle:hover {
+    cursor: pointer;
+    fill: #ccc !important;
+}*/
+
+@page {
+    size: landscape;
+}
+@media print {
+    h1, div.buttons {
+        display: none;
+    }
+}
