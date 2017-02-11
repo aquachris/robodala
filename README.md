@@ -1,8 +1,11 @@
 # robodala
 
-A small javascript application that creates semi-(pseudo)random mandalas for
-your viewing and coloring pleasure.
+A small javascript application that generates semirandom mandalas for large and small screens, and for printing.
 
 ## Examples
 
-TODO
+![Example pictures](https://raw.githubusercontent.com/aquachris/robodala/master/examples/examples-collage.png)
+
+## TODOs
+
+- Printing on iPhones doesn't seem to work correctly.
