@@ -100,6 +100,34 @@ define(['util', 'mandala'], function (UTIL, Mandala) {
                         gElement.appendChild(pathElement);
                     }
                     break;
+                case Mandala.SPIRAL:
+                    for(var i = 0, len = segment.rotationSteps.length; i < len; i++) {
+                        pathDesc = 'M';
+                        for(var pi = 0, plen = segment.rotationSteps[i].points1.length; pi < plen; pi++) {
+                            curPoint = UTIL.translatePoint2d(segment.rotationSteps[i].points1[pi], this.center);
+                            pathDesc += curPoint[0].toFixed(2) + ',';
+                            pathDesc += curPoint[1].toFixed(2) + ' ';
+                        }
+                        pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        pathElement.setAttribute('fill', 'transparent');
+                        pathElement.setAttribute('d', pathDesc);
+                        gElement.appendChild(pathElement);
+
+                        if(!segment.rotationSteps[i].points2 || segment.rotationSteps[i].points2.length === 0) {
+                            continue;
+                        }
+                        pathDesc = 'M';
+                        for(var pi = 0, plen = segment.rotationSteps[i].points2.length; pi < plen; pi++) {
+                            curPoint = UTIL.translatePoint2d(segment.rotationSteps[i].points2[pi], this.center);
+                            pathDesc += curPoint[0].toFixed(2) + ',';
+                            pathDesc += curPoint[1].toFixed(2) + ' ';
+                        }
+                        pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        pathElement.setAttribute('fill', 'transparent');
+                        pathElement.setAttribute('d', pathDesc);
+                        gElement.appendChild(pathElement);
+                    }
+                    break;
                 default:
                     console.error('segment type "' + segment.type + '" is unknown');
             }

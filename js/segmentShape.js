@@ -42,6 +42,6 @@ define(['util'], function (UTIL) {
             this.points.push(UTIL.reflectPoint2dXAxis(this.points[i]));
         }
     };
-
+    
     return SegmentShape;
 });

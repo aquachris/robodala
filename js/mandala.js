@@ -1,4 +1,4 @@
-define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, SegmentShape) {
+define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'], function (UTIL, SegmentCurve, SegmentShape, SegmentSpiral) {
     'use strict';
 
     var Mandala = function (maxOuterRadius) {
@@ -33,15 +33,18 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
             // deviate in segment thickness
             curThickness = Math.min(segmentThickness * (1 + rand2), curRadius);
             // option 1: a single shape
-            if(rand1 >= .6) {
+            if(rand1 >= .75) {
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, 0, angle);
             // option 2: two alternating shapes
-            } else if(rand1 >= .15)  {
+            } else if(rand1 >= .30)  {
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, angleOffset, 2 * angle);
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, angleOffset + angle, 2 * angle);
+            } else if(rand1 >= .15) {
+                this.createSpiralSegment(curRadius - curThickness, curRadius,
+                    curNumSides, 0, angle, this.segments.length === 0);
             } else {
                 if(this.segments.length > 0) {
                     this.createCurveSegment(curRadius - curThickness, curRadius, curNumSides);
@@ -50,7 +53,7 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
             curRadius -= curThickness;
 
             if(curRadius > 0) {
-                this.createCircleSegment(curRadius * 1.05);
+                this.createCircleSegment(curRadius);
             }
         }
     };
@@ -58,6 +61,7 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
     Mandala.SHAPE = 'shape';
     Mandala.CURVE = 'curve';
     Mandala.CIRCLE = 'circle';
+    Mandala.SPIRAL = 'spiral';
 
     Mandala.prototype.createCircleSegment = function (radius) {
         this.segments.push({
@@ -75,7 +79,7 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
         var curStep;
 
         innerRadius = 1.10 * Math.max(innerRadius, 10);
-        outerRadius = .98 * outerRadius;
+        outerRadius = .9 * outerRadius;
 
         curve = new SegmentCurve(innerRadius, outerRadius, numSides);
         angleIncrement = 360 / numSides;
@@ -114,7 +118,7 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
         if(degreesToRepeatAfter === undefined) {
             degreesToRepeatAfter = 0;
         }
-        shape = new SegmentShape(innerRadius, outerRadius, numSides);
+        shape = new SegmentShape(innerRadius - 8, outerRadius - 8, numSides);
 
         // initialize rotation steps
         rotationSteps = [{
@@ -142,6 +146,15 @@ define(['util', 'segmentCurve', 'segmentShape'], function (UTIL, SegmentCurve, S
         this.segments.push({
             type : Mandala.SHAPE,
             rotationSteps : rotationSteps
+        });
+    };
+
+    Mandala.prototype.createSpiralSegment = function (innerRadius, outerRadius, numSides, startAtAngle, degreesToRepeatAfter, isTopSegment) {
+        var spiralShape = new SegmentSpiral(innerRadius, outerRadius, numSides, startAtAngle, degreesToRepeatAfter, isTopSegment);
+
+        this.segments.push({
+            type : Mandala.SPIRAL,
+            rotationSteps : spiralShape.rotationSteps
         });
     };
 
