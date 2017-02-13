@@ -1,4 +1,5 @@
-define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'], function (UTIL, SegmentCurve, SegmentShape, SegmentSpiral) {
+define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'],
+    function (UTIL, SegmentCurve, SegmentShape, SegmentSpiral) {
     'use strict';
 
     var Mandala = function (maxOuterRadius) {
@@ -118,7 +119,7 @@ define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'], function (UTIL
         if(degreesToRepeatAfter === undefined) {
             degreesToRepeatAfter = 0;
         }
-        shape = new SegmentShape(innerRadius - 8, outerRadius - 8, numSides);
+        shape = new SegmentShape(innerRadius, outerRadius, numSides);
 
         // initialize rotation steps
         rotationSteps = [{
