@@ -105,48 +105,11 @@ define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'],
     };
 
     Mandala.prototype.createSegment = function(innerRadius, outerRadius, numSides, startAtAngle, degreesToRepeatAfter) {
-        var shape;
-        var rotationSteps;
-        var theta;
-        var curPoint;
-
-        if(innerRadius < 10) {
-            innerRadius = 10;
-        }
-        if(startAtAngle === undefined) {
-            startAtAngle = 0;
-        }
-        if(degreesToRepeatAfter === undefined) {
-            degreesToRepeatAfter = 0;
-        }
-        shape = new SegmentShape(innerRadius, outerRadius, numSides);
-
-        // initialize rotation steps
-        rotationSteps = [{
-            angle : startAtAngle,
-            points : []
-        }];
-        if(degreesToRepeatAfter > 0) {
-            for(var angle = degreesToRepeatAfter; angle < 360; angle += degreesToRepeatAfter) {
-                rotationSteps.push({
-                    angle : startAtAngle + angle,
-                    points : []
-                })
-            }
-        }
-
-        // populate rotation steps
-        for(var i = 0, len = rotationSteps.length; i < len; i++) {
-            theta = UTIL.degToRad(rotationSteps[i].angle);
-            for(var pi = 0, plen = shape.points.length; pi < plen; pi++) {
-                curPoint = UTIL.rotatePoint2d(shape.points[pi], theta);
-                rotationSteps[i].points.push(curPoint);
-            }
-        }
+        var shape = new SegmentShape(innerRadius, outerRadius, numSides, startAtAngle, degreesToRepeatAfter);
 
         this.segments.push({
             type : Mandala.SHAPE,
-            rotationSteps : rotationSteps
+            rotationSteps : shape.rotationSteps
         });
     };
 

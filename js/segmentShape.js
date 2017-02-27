@@ -13,6 +13,44 @@ define(['util'], function (UTIL) {
         } else {
             this.generateBasicShape();
         }
+
+        var shape;
+        var rotationSteps;
+        var theta;
+        var curPoint;
+
+        if(this.innerRadius < 10) {
+            this.innerRadius = 10;
+        }
+        if(this.startAtAngle === undefined) {
+            this.startAtAngle = 0;
+        }
+        if(this.degreesToRepeatAfter === undefined) {
+            this.degreesToRepeatAfter = 0;
+        }
+
+        // initialize rotation steps
+        this.rotationSteps = [{
+            angle : this.startAtAngle,
+            points : []
+        }];
+        if(this.degreesToRepeatAfter > 0) {
+            for(var angle = degreesToRepeatAfter; angle < 360; angle += degreesToRepeatAfter) {
+                rotationSteps.push({
+                    angle : startAtAngle + angle,
+                    points : []
+                })
+            }
+        }
+
+        // populate rotation steps
+        for(var i = 0, len = this.rotationSteps.length; i < len; i++) {
+            theta = UTIL.degToRad(this.rotationSteps[i].angle);
+            for(var pi = 0, plen = this.points.length; pi < plen; pi++) {
+                curPoint = UTIL.rotatePoint2d(this.points[pi], theta);
+                this.rotationSteps[i].points.push(curPoint);
+            }
+        }
     };
 
     // a collection of fixed shapes scaled to 100 x 100
@@ -25,18 +63,12 @@ define(['util'], function (UTIL) {
 
     SegmentShape.prototype.adaptFixedShape = function () {
         var curPoint;
-        var rot = Math.random() * Math.PI * 2;
+        var rot = Math.random() < .5 ? 0 : Math.PI; //UTIL.degToRad(Math.random() * 60 - 30);
         this.shapeWidth = .9 * (this.outerRadius - this.innerRadius);
         this.shapeHeight = this.shapeWidth;
 
         // determine numSides
         this.numSides = Math.ceil(Math.PI / Math.atan(.5 * this.shapeHeight / this.innerRadius));
-        /*this.innerRadius = this.shapeHeight / (2 * Math.tan(Math.PI / n))
-        this.innerRadius * (2 * Math.tan(Math.PI / n)) = this.shapeHeight;
-        2 * Math.tan(Math.PI / n) = this.shapeHeight / this.innerRadius;
-        Math.tan(Math.PI / n) = .5 * this.shapeHeight / this.innerRadius;
-        Math.PI / n = Math.atan(.5 * this.shapeHeight / this.innerRadius);
-        n = Math.PI / Math.atan(.5 * this.shapeHeight / this.innerRadius);*/
 
         var shapeIdx = Math.floor(Math.random() * SegmentShape.FIXED.length);
         var fixedShape = SegmentShape.FIXED[shapeIdx];
