@@ -35,13 +35,14 @@ define(['util'], function (UTIL) {
             points : []
         }];
         if(this.degreesToRepeatAfter > 0) {
-            for(var angle = degreesToRepeatAfter; angle < 360; angle += degreesToRepeatAfter) {
-                rotationSteps.push({
-                    angle : startAtAngle + angle,
+            for(var angle = this.degreesToRepeatAfter; angle < 360; angle += this.degreesToRepeatAfter) {
+                this.rotationSteps.push({
+                    angle : this.startAtAngle + angle,
                     points : []
-                })
+                });
             }
         }
+        console.log(this.rotationSteps.length + ' rotation steps');
 
         // populate rotation steps
         for(var i = 0, len = this.rotationSteps.length; i < len; i++) {
@@ -63,12 +64,14 @@ define(['util'], function (UTIL) {
 
     SegmentShape.prototype.adaptFixedShape = function () {
         var curPoint;
-        var rot = Math.random() < .5 ? 0 : Math.PI; //UTIL.degToRad(Math.random() * 60 - 30);
-        this.shapeWidth = .9 * (this.outerRadius - this.innerRadius);
+        var rot = Math.random() < 0.5 ? 0 : Math.PI; //UTIL.degToRad(Math.random() * 60 - 30);
+        this.shapeWidth = 0.9 * (this.outerRadius - this.innerRadius);
         this.shapeHeight = this.shapeWidth;
 
         // determine numSides
-        this.numSides = Math.ceil(Math.PI / Math.atan(.5 * this.shapeHeight / this.innerRadius));
+        this.numSides = Math.ceil(Math.PI / Math.atan(0.5 * this.shapeHeight / this.innerRadius));
+
+        this.degreesToRepeatAfter = 360 / this.numSides;
 
         var shapeIdx = Math.floor(Math.random() * SegmentShape.FIXED.length);
         var fixedShape = SegmentShape.FIXED[shapeIdx];
@@ -80,7 +83,7 @@ define(['util'], function (UTIL) {
             curPoint = UTIL.rotatePoint2d(curPoint, rot);
             curPoint = UTIL.translatePoint2d(curPoint, [50, 0]);
             curPoint = UTIL.scalePoint2d(curPoint, [scalingFactor, scalingFactor]);
-            this.points.push(UTIL.translatePoint2d(curPoint, [this.innerRadius + .05 * (this.outerRadius - this.innerRadius), 0]));
+            this.points.push(UTIL.translatePoint2d(curPoint, [this.innerRadius + 0.05 * (this.outerRadius - this.innerRadius), 0]));
         }
     };
 
