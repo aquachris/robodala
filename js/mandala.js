@@ -12,7 +12,7 @@ define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'],
         var curThickness;
         var numSidesIdx;
         var curNumSides;
-        var rand1, rand2;
+        var shapeRand, thicknessRand;
         var angle, angleOffset;
 
         while(curRadius > 0) {
@@ -25,25 +25,25 @@ define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'],
                 numSidesIdx = Math.max(numSidesIdx - 1, 0);
             }
             curNumSides = sideOptions[numSidesIdx];
-            rand1 = Math.random();
-            rand2 = Math.random();
+            shapeRand = Math.random();
+            thicknessRand = Math.random();
 
             angle = 360 / curNumSides;
             angleOffset = Math.random() * angle;
 
             // deviate in segment thickness
-            curThickness = Math.min(segmentThickness * (1 + rand2), curRadius);
+            curThickness = Math.min(segmentThickness * (1 + thicknessRand), curRadius);
             // option 1: a single shape
-            if(rand1 >= .75) {
+            if(shapeRand >= 0.75) {
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, 0, angle);
             // option 2: two alternating shapes
-            } else if(rand1 >= .30)  {
+            } else if(shapeRand >= 0.30)  {
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, angleOffset, 2 * angle);
                 this.createSegment(curRadius - curThickness, curRadius,
                     curNumSides, angleOffset + angle, 2 * angle);
-            } else if(rand1 >= .15) {
+            } else if(shapeRand >= 0.15) {
                 this.createSpiralSegment(curRadius - curThickness, curRadius,
                     curNumSides, 0, angle, this.segments.length === 0);
             } else {
@@ -80,7 +80,7 @@ define(['util', 'segmentCurve', 'segmentShape', 'segmentSpiral'],
         var curStep;
 
         innerRadius = 1.10 * Math.max(innerRadius, 10);
-        outerRadius = .9 * outerRadius;
+        outerRadius = 0.9 * outerRadius;
 
         curve = new SegmentCurve(innerRadius, outerRadius, numSides);
         angleIncrement = 360 / numSides;

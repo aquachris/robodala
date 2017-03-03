@@ -8,6 +8,8 @@ define(['util'], function (UTIL) {
         this.shapeWidth = 0; // to be determined later
         this.shapeHeight = 0; // to be determined later
         this.points = []; // to be determined later
+
+        // roll a die: use a fixed shape or generate a random one?
         if(true) {
             this.adaptFixedShape();
         } else {
